@@ -1,67 +1,138 @@
 package tcc.bes.api_monolito.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import tcc.bes.api_monolito.dto.LoginResponseDTO;
+import tcc.bes.api_monolito.dto.ApiErrorDTO;
+import tcc.bes.api_monolito.dto.ValidationFieldErrorDTO;
+import tcc.bes.api_monolito.filter.CorrelationIdFilter;
 
+import java.time.Instant;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<LoginResponseDTO> handleInvalidCredentials(InvalidCredentialsException ex) {
-        LoginResponseDTO response = new LoginResponseDTO();
-        response.setSuccess(false);
-        response.setMessage(ex.getMessage());
-        response.setUser(null);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    public ResponseEntity<ApiErrorDTO> handleInvalidCredentials(
+            InvalidCredentialsException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.UNAUTHORIZED,
+                "INVALID_CREDENTIALS",
+                ex.getMessage(),
+                request,
+                Collections.emptyList()
+        );
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<LoginResponseDTO> handleUserNotFound(UserNotFoundException ex) {
-        LoginResponseDTO response = new LoginResponseDTO();
-        response.setSuccess(false);
-        response.setMessage(ex.getMessage());
-        response.setUser(null);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    public ResponseEntity<ApiErrorDTO> handleUserNotFound(
+            UserNotFoundException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.NOT_FOUND,
+                "USER_NOT_FOUND",
+                ex.getMessage(),
+                request,
+                Collections.emptyList()
+        );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<LoginResponseDTO> handleValidationException(MethodArgumentNotValidException ex) {
-        String validationMessages = ex.getBindingResult().getFieldErrors().stream()
+    public ResponseEntity<ApiErrorDTO> handleValidationException(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request
+    ) {
+        List<ValidationFieldErrorDTO> fields = ex.getBindingResult().getFieldErrors().stream()
                 .sorted(Comparator.comparing(fieldError -> fieldError.getField()))
-                .map(fieldError -> fieldError.getDefaultMessage())
+                .map(fieldError -> new ValidationFieldErrorDTO(
+                        fieldError.getField(),
+                        fieldError.getDefaultMessage()
+                ))
                 .distinct()
-                .collect(Collectors.joining(", "));
+                .toList();
 
-        LoginResponseDTO response = new LoginResponseDTO();
-        response.setSuccess(false);
-        response.setMessage("Validation failed: " + validationMessages);
-        response.setUser(null);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "VALIDATION_ERROR",
+                "Validation failed",
+                request,
+                fields
+        );
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiErrorDTO> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "MALFORMED_REQUEST",
+                "Malformed request body",
+                request,
+                Collections.emptyList()
+        );
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<LoginResponseDTO> handleNoResourceFound(NoResourceFoundException ex) {
-        LoginResponseDTO response = new LoginResponseDTO();
-        response.setSuccess(false);
-        response.setMessage("Resource not found");
-        response.setUser(null);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    public ResponseEntity<ApiErrorDTO> handleNoResourceFound(
+            NoResourceFoundException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.NOT_FOUND,
+                "RESOURCE_NOT_FOUND",
+                "Resource not found",
+                request,
+                Collections.emptyList()
+        );
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<LoginResponseDTO> handleGenericException(Exception ex) {
-        LoginResponseDTO response = new LoginResponseDTO();
-        response.setSuccess(false);
-        response.setMessage("An error occurred: " + ex.getMessage());
-        response.setUser(null);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    public ResponseEntity<ApiErrorDTO> handleGenericException(
+            Exception ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "INTERNAL_ERROR",
+                "An unexpected error occurred",
+                request,
+                Collections.emptyList()
+        );
+    }
+
+    private ResponseEntity<ApiErrorDTO> buildResponse(
+            HttpStatus status,
+            String code,
+            String message,
+            HttpServletRequest request,
+            List<ValidationFieldErrorDTO> fields
+    ) {
+        ApiErrorDTO response = new ApiErrorDTO(
+                Instant.now(),
+                status.value(),
+                status.getReasonPhrase(),
+                code,
+                message,
+                request.getRequestURI(),
+                request.getMethod(),
+                MDC.get(CorrelationIdFilter.CORRELATION_ID_MDC_KEY),
+                fields
+        );
+
+        return ResponseEntity.status(status).body(response);
     }
 }
