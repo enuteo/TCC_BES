@@ -1,18 +1,10 @@
-# Prometheus configuration for a project with 2 containers.
-# Update service hostnames and ports according to your Docker compose or container setup.
-
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
   scrape_timeout: 10s
 
 scrape_configs:
-  - job_name: 'service-a'
+  - job_name: 'api-monolito'
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ['service-a:8080']
-
-  - job_name: 'service-b'
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets: ['service-b:8081']
+      - targets: ['java-app:8080']

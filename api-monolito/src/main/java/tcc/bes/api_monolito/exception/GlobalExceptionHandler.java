@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tcc.bes.api_monolito.dto.LoginResponseDTO;
 
 import java.util.Comparator;
@@ -44,6 +45,15 @@ public class GlobalExceptionHandler {
         response.setMessage("Validation failed: " + validationMessages);
         response.setUser(null);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<LoginResponseDTO> handleNoResourceFound(NoResourceFoundException ex) {
+        LoginResponseDTO response = new LoginResponseDTO();
+        response.setSuccess(false);
+        response.setMessage("Resource not found");
+        response.setUser(null);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(Exception.class)
