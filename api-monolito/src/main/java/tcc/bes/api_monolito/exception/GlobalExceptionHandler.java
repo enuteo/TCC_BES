@@ -5,13 +5,16 @@ import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tcc.bes.api_monolito.dto.ApiErrorDTO;
 import tcc.bes.api_monolito.dto.ValidationFieldErrorDTO;
 import tcc.bes.api_monolito.filter.CorrelationIdFilter;
+import tcc.bes.api_monolito.shared.error.ApiException;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -20,6 +23,20 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiErrorDTO> handleApiException(
+            ApiException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                ex.getStatus(),
+                ex.getCode(),
+                ex.getMessage(),
+                request,
+                Collections.emptyList()
+        );
+    }
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ApiErrorDTO> handleInvalidCredentials(
@@ -81,6 +98,34 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 "MALFORMED_REQUEST",
                 "Malformed request body",
+                request,
+                Collections.emptyList()
+        );
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<ApiErrorDTO> handleMissingRequestHeader(
+            MissingRequestHeaderException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "HEADER_REQUIRED",
+                "Required header is missing: " + ex.getHeaderName(),
+                request,
+                Collections.emptyList()
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiErrorDTO> handleTypeMismatch(
+            MethodArgumentTypeMismatchException ex,
+            HttpServletRequest request
+    ) {
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                "INVALID_PARAMETER",
+                "Request parameter or path variable has an invalid format.",
                 request,
                 Collections.emptyList()
         );

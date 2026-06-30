@@ -1,10 +1,9 @@
 package tcc.bes.api_monolito;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import tcc.bes.api_monolito.support.PostgresIntegrationTestSupport;
 
-@SpringBootTest
-class ApiMonolitoApplicationTests {
+class ApiMonolitoApplicationTests extends PostgresIntegrationTestSupport {
 
 	@Test
 	void contextLoads() {

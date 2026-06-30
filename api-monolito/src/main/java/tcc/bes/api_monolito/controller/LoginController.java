@@ -1,6 +1,7 @@
 package tcc.bes.api_monolito.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import tcc.bes.api_monolito.service.LoginService;
 
 @RestController
 @RequestMapping("/api/auth")
+@ConditionalOnProperty(name = "app.public-api.enabled", havingValue = "true", matchIfMissing = true)
 public class LoginController {
 
     private final LoginService loginService;
