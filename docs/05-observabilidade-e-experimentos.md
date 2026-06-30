@@ -24,8 +24,10 @@ O protótipo já possui:
 - `X-Correlation-ID` propagado por filtro e MDC;
 - configuração Prometheus com coleta a cada 15 segundos.
 
-Essa base deve ser preservada e ampliada. O compose atual ainda não representa
-todo o ambiente experimental.
+Essa base deve ser preservada e ampliada. O pacote experimental está em
+`experiments/` e inclui Docker Compose, PostgreSQL 16, cAdvisor, Prometheus,
+Grafana, k6 e cálculo do ICCE. G1/G2/G3 possuem arquivos Prometheus por topologia
+para coletar a API residual e os serviços internos extraídos.
 
 ## Métricas HTTP e de processo
 
@@ -42,6 +44,8 @@ Utilizar métricas padrão do Spring Boot e JVM para obter:
 
 Identificador de entrada, participante, fila, recurso, reserva e correlation ID
 não podem ser labels de métrica, pois possuem cardinalidade não limitada.
+As métricas recebem labels estáveis de grupo e papel experimental para separar
+G0, residual, reservas e gestão de filas sem usar identificadores de domínio.
 
 ## Métricas de domínio
 
@@ -112,6 +116,24 @@ Cada variante futura deve usar:
 
 Configuração de intervalos, lotes e duração dos holds deve ser fixada por perfil
 de carga e registrada com o resultado.
+
+Para G1/G2/G3, a comparação deve considerar que cada papel possui seu próprio
+PostgreSQL. O custo de CPU, memória e rede deve incluir todos os containers da
+topologia, não apenas a API residual.
+
+## ICCE
+
+O Índice de Consumo Computacional Estimado é calculado por carga, normalizado
+contra o G0:
+
+```text
+CPU_time = CPU_media * duracao
+MEM_time = memoria_media_GB * duracao
+NET_total = bytes_recebidos + bytes_enviados
+ICCE = (CPU_norm + MEM_norm + NET_norm) / 3
+```
+
+O índice é comparativo e adimensional; não representa medição elétrica direta.
 
 ## Perfis de carga mínimos
 

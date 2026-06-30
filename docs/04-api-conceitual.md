@@ -36,8 +36,8 @@ logs e erros.
 - O gestor proprietário pode consultar e controlar os recursos sob sua
   responsabilidade.
 
-O mecanismo concreto da credencial de gestor será fechado ao implementar
-Identidade e Acesso. A autorização descrita aqui não depende de JWT.
+No MVP, a credencial de gestor é um Bearer JWT assinado com segredo de
+configuração. O token da entrada continua opaco e restrito àquela entrada.
 
 ### Idempotência
 
@@ -66,8 +66,8 @@ ser estável; entradas são ordenadas por sequência de chegada.
 | `GET /actuator/health` | Operação | Saúde técnica da aplicação. |
 | `GET /actuator/prometheus` | Operação | Coleta de métricas pelo Prometheus. |
 
-`/api/auth/login` é legado do protótipo. Não deve ser apresentado como
-autenticação segura nem receber novas dependências de domínio.
+`/api/auth/login` é legado do protótipo. O fluxo novo usa
+`/api/v1/auth/login`.
 
 ## Recursos e estoque
 
@@ -153,6 +153,11 @@ venceu a disputa retorna `409 Conflict` com o estado atual.
 Não existe endpoint público para fazer o worker avançar. O processamento e a
 expiração são jobs internos, evitando que a correção da fila dependa de polling
 dos participantes.
+
+As variantes G1/G2/G3 possuem endpoints internos em `/internal/v1` para comunicação
+entre containers. Eles não fazem parte do contrato público, exigem
+`X-Internal-Token` e podem mudar sem versionamento externo desde que preservem o
+comportamento observado em `/api/v1`.
 
 ## Respostas e erros
 

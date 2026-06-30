@@ -122,7 +122,7 @@ O monólito estará pronto para ser a linha de base quando:
 ## Restrições
 
 - Java 21 e Spring Boot são a base tecnológica atual.
-- O monólito usa um processo e um banco MySQL.
+- O monólito usa um processo e um banco PostgreSQL.
 - APIs públicas usam HTTP e JSON.
 - A política inicial é FIFO e não pode ser enfraquecida silenciosamente para
   melhorar throughput.

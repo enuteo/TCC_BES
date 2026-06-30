@@ -1,0 +1,9 @@
+.vscode/
+AGENTS.md
+BES_TCC_melhorado.pdf
+
+experiments/scripts/__pycache__/
+experiments/results/_campaign-logs/
+experiments/results/20260629-*/
+!experiments/results/20260629-232719-g0-g3/
+!experiments/results/20260629-232719-g0-g3/**

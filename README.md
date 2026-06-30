@@ -14,10 +14,9 @@ recursos.
 
 ## Estado atual
 
-O código existente é um protótipo MVC por camadas, com autenticação
-demonstrativa, acesso JDBC ao MySQL, endpoints de status, correlation ID,
-Actuator e métricas Prometheus. Ele ainda não implementa o domínio de filas nem
-a organização modular descrita como arquitetura alvo.
+O código partiu de um protótipo MVC por camadas e agora contém a base G0 do
+monólito modular de sala de espera, com autenticação de gestor, filas,
+reservas, PostgreSQL, Flyway, correlation ID, Actuator e métricas Prometheus.
 
 ## Documentação
 
@@ -38,13 +37,13 @@ Para agentes de desenvolvimento, o contexto operacional está em
 - Java 21
 - Spring Boot 3.5
 - Spring Web MVC e Jakarta Validation
-- Spring JDBC e MySQL
+- Spring JDBC, PostgreSQL, Flyway e Testcontainers
 - Spring Boot Actuator, Micrometer e Prometheus
 - Maven
 
 ## Execução local
 
-Com um MySQL disponível conforme
+Com um PostgreSQL disponível conforme
 `api-monolito/src/main/resources/application.properties`:
 
 ```powershell
@@ -61,3 +60,8 @@ cd api-monolito
 
 As credenciais e o usuário de exemplo existentes servem apenas ao protótipo e
 não representam o desenho de segurança do MVP.
+
+## Experimentos
+
+Os artefatos iniciais para G0-G3, k6, Prometheus, cAdvisor, Grafana e cálculo
+do ICCE ficam em [experiments/](experiments/README.md).

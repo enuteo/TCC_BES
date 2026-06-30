@@ -120,8 +120,8 @@ tcc.bes.api_monolito
 
 ## Persistência
 
-O MVP mantém MySQL e Spring JDBC. Uma única instância e schema são suficientes,
-mas cada módulo possui suas tabelas e seus mapeadores.
+O MVP mantém PostgreSQL e Spring JDBC. Uma única instância de banco é
+suficiente no G0, mas cada módulo possui suas tabelas e seus mapeadores.
 
 As referências entre módulos usam identificadores, não objetos de persistência
 compartilhados. Chaves estrangeiras podem proteger integridade durante a fase
@@ -134,18 +134,23 @@ transação entre módulos é uma característica conhecida da linha de base; um
 futura extração deverá substituí-la por protocolo distribuído sem alterar o
 resultado funcional.
 
-Migrações versionadas devem substituir a inicialização manual por `schema.sql`
-antes de congelar a linha de base experimental.
+Migrações versionadas com Flyway substituem a inicialização manual por
+`schema.sql`. Testes de integração usam PostgreSQL via Testcontainers quando
+Docker está disponível.
 
 ## Comunicação e eventos
 
-- Chamadas entre módulos são Java local e síncronas quando uma resposta é
-  necessária.
+- No G0, chamadas entre módulos são Java local e síncronas quando uma resposta
+  é necessária.
+- Em G1/G2, o residual usa adaptadores HTTP internos para chamar os serviços
+  extraídos sem alterar o contrato público `/api/v1`.
+- Os endpoints internos ficam em `/internal/v1`, são protegidos por
+  `X-Internal-Token` e propagam `X-Correlation-Id`.
 - Eventos internos anunciam fatos já confirmados e são publicados após commit.
-- Não haverá HTTP interno, service discovery ou broker apenas para simular
-  microserviços.
-- A entrega confiável de eventos distribuídos será decidida quando um módulo
-  for efetivamente extraído.
+- Reservas confirmadas, canceladas ou expiradas geram eventos terminais
+  reconciliados pelo residual por polling HTTP e ack explícito.
+- Não há broker nesta etapa; a entrega assíncrona confiável continua como
+  evolução possível depois das medições iniciais.
 
 ## Concorrência e consistência
 
@@ -165,9 +170,8 @@ determinísticos.
 
 - Operações administrativas exigem identidade de gestor autenticada e
   autorização sobre a fila.
-- O protocolo de emissão da credencial do gestor será definido na
-  implementação de Identidade e Acesso; o login atual não deve ser ampliado
-  como está.
+- O protocolo de emissão da credencial do gestor no MVP é Bearer JWT assinado
+  por segredo de configuração; o login legado não deve ser ampliado como está.
 - O token da entrada concede acesso somente àquela entrada e reserva.
 - Senhas, tokens, respostas idempotentes e chaves de idempotência não são
   persistidos em texto simples; eventual resposta que precise ser repetida é
@@ -175,7 +179,30 @@ determinísticos.
 - Logs, métricas e erros não expõem credenciais, token, chave do participante
   ou dados de autenticação.
 
-## Preparação para extração futura
+## Variantes experimentais
+
+As variantes experimentais iniciais são:
+
+- `G0`: monólito modular em um processo;
+- `G1`: extração de Inventário e Reservas;
+- `G2`: extração de Inventário e Reservas e Gestão de Filas.
+- `G3`: extração de Identidade e Acesso, Sala de Espera, Gestão de Filas e
+  Inventário e Reservas.
+
+O contrato HTTP externo permanece equivalente entre os grupos. G1/G2/G3 usam o
+mesmo artefato do G0 com papéis de execução, mas cada serviço roda em processo
+e banco próprios na topologia Docker Compose. As chamadas entre residual,
+Identidade, Sala de Espera, Reservas e Gestão de Filas atravessam HTTP interno
+conforme os serviços extraídos em cada variante.
+
+Os bancos distribuídos não usam chaves estrangeiras entre módulos. Cada serviço
+mantém apenas constraints locais e referências por identificador. Essa
+separação evita que a validade de G1/G2/G3 dependa de integridade transacional
+entre bancos.
+
+G3 é o limite de granularidade implementável nesta fase do estudo. Separações
+mais finas, como dividir inventário de reservas ou dividir operações internas
+da sala de espera, permanecem como trabalho futuro.
 
 O monólito estará estruturalmente preparado quando:
 

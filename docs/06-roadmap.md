@@ -20,7 +20,7 @@ planejar os incrementos seguintes.
 
 ## Marco 1 — Estabilizar a fundação
 
-- criar configuração de teste que não dependa de MySQL manual;
+- criar configuração de teste que não dependa de banco manual;
 - substituir credenciais fixas por configuração externa;
 - corrigir o tratamento de segredos e retirar o usuário demonstrativo do fluxo
   de produção;
@@ -29,6 +29,10 @@ planejar os incrementos seguintes.
 
 Aceite: build e testes reproduzíveis em ambiente limpo; nenhum segredo real ou
 senha em texto simples no caminho novo.
+
+Estado: implementado parcialmente com PostgreSQL, Flyway, Testcontainers,
+segredos por configuração e JWT para gestores. Em ambientes sem Docker, os
+testes de integração são ignorados de forma explícita.
 
 ## Marco 2 — Estruturar o monólito modular
 
@@ -75,6 +79,10 @@ outra entrada.
 Aceite: estoque nunca negativo, conservação da quantidade em toda execução,
 apenas um resultado terminal por reserva e FIFO preservado.
 
+Estado: implementado no G0 com worker local, holds, confirmação, cancelamento,
+expiração e testes de integração para o fluxo principal quando Docker está
+disponível.
+
 ## Marco 6 — Contrato e observabilidade
 
 - publicar OpenAPI de `/api/v1`;
@@ -85,6 +93,9 @@ apenas um resultado terminal por reserva e FIFO preservado.
 
 Aceite: fluxo completo executável via API, métricas suficientes para explicar
 cada perfil de carga e validação automática das invariantes após o teste.
+
+Estado: iniciado com métricas de domínio, Prometheus, cAdvisor, k6 e cálculo
+do ICCE em `experiments/`.
 
 ## Marco 7 — Congelar a linha de base
 
@@ -99,16 +110,23 @@ congelado.
 
 ## Etapa posterior — Variantes de granularidade
 
-Somente após o Marco 7:
+Após o G0 estar funcional, foram criadas as primeiras variantes executáveis:
+G1 extrai Inventário e Reservas; G2 extrai Inventário e Reservas e Gestão de
+Filas; G3 extrai Identidade e Acesso, Sala de Espera, Gestão de Filas e
+Inventário e Reservas. Todas preservam `/api/v1` no residual e usam HTTP
+interno entre serviços com bancos separados.
 
-- escolher agrupamentos de módulos para cada variante;
-- definir mecanismos distribuídos de consistência e entrega de eventos;
+Ainda permanecem nesta etapa:
+
+- executar os perfis de carga completos para cada variante;
+- validar invariantes funcionais depois de cada execução;
+- registrar configuração, commit, métricas e interferências;
 - preservar contrato, dados, carga e critérios funcionais;
 - medir com o mesmo protocolo;
 - comparar benefícios, custos e falhas introduzidas por cada granularidade.
 
-Essa etapa exigirá uma decisão experimental própria. Este roadmap não assume
-quantos microserviços existirão nem qual variante será superior.
+G1/G2/G3 ainda não são resultados do TCC por si só; tornam-se resultados somente
+depois das execuções repetidas e validadas pelo protocolo experimental.
 
 ## Definição de concluído para mudanças
 
