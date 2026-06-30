@@ -1,0 +1,15 @@
+﻿{
+    "MANAGER_PASSWORD":  "admin123",
+    "HOLD_SECONDS":  "45",
+    "POLL_ATTEMPTS":  "30",
+    "RESOURCE_TOTAL":  "120",
+    "PROFILE":  "contention",
+    "HTTP_FAILED_RATE":  "0.20",
+    "POLL_SLEEP_SECONDS":  "1",
+    "DURATION":  "3m",
+    "MAX_QUANTITY":  "3",
+    "MANAGER_USERNAME":  "admin",
+    "HTTP_P95_MS":  "5000",
+    "VUS":  "40",
+    "BATCH_SIZE":  "20"
+}

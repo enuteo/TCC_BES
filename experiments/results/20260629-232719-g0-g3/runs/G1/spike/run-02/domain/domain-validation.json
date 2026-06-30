@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "stock_conservation",
+      "passed": true,
+      "details": {
+        "broken_resource_ids": [],
+        "resources_checked": 1
+      }
+    },
+    {
+      "check": "duplicate_active_participant",
+      "passed": true,
+      "details": {
+        "duplicates": [],
+        "active_entries_checked": 0
+      }
+    },
+    {
+      "check": "duplicate_queue_sequence",
+      "passed": true,
+      "details": {
+        "duplicates": [],
+        "entries_checked": 4327
+      }
+    },
+    {
+      "check": "entry_reservation_links",
+      "passed": true,
+      "details": {
+        "missing_reservations": [],
+        "mismatched_reservations": [],
+        "missing_entries": [],
+        "entries_checked": 4327,
+        "reservations_checked": 152
+      }
+    }
+  ],
+  "counts": {
+    "resources": 1,
+    "queues": 1,
+    "entries": 4327,
+    "reservations": 152,
+    "entry_states": {
+      "UNFULFILLABLE": 4175,
+      "CONFIRMED": 152
+    },
+    "reservation_states": {
+      "CONFIRMED": 152
+    }
+  },
+  "exports": [
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-02\\domain\\residual-postgres_manager_accounts.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-02\\domain\\residual-postgres_queues.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-02\\domain\\residual-postgres_entries.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-02\\domain\\reservation-postgres_resources.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-02\\domain\\reservation-postgres_reservations.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-02\\domain\\reservation-postgres_reservation_terminal_events.csv"
+  ],
+  "errors": []
+}

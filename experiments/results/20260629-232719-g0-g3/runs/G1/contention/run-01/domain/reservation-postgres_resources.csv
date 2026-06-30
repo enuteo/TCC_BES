@@ -1,0 +1,2 @@
+id,manager_id,name,total_quantity,available_quantity,held_quantity,confirmed_quantity,created_at
+5470346e-dbc7-48b0-9709-3641a77efe28,d6d29dd2-2fe2-4bc5-aca2-e29289c8e6f1,resource-contention-1782789178723,120,0,0,120,2026-06-30 03:12:58.943712+00

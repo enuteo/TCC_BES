@@ -1,0 +1,15 @@
+{
+  "query": "sum(rate(container_cpu_usage_seconds_total{container=~\".*tcc-bes-g2-spike-run1.*\"}[30s]))",
+  "attemptedQueries": [
+    "sum(rate(container_cpu_usage_seconds_total{container_label_com_docker_compose_project=\"tcc-bes-g2-spike-run1\"}[30s]))",
+    "sum(rate(container_cpu_usage_seconds_total{name=~\".*tcc-bes-g2-spike-run1.*\"}[30s]))",
+    "sum(rate(container_cpu_usage_seconds_total{container=~\".*tcc-bes-g2-spike-run1.*\"}[30s]))"
+  ],
+  "payload": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": []
+    }
+  }
+}

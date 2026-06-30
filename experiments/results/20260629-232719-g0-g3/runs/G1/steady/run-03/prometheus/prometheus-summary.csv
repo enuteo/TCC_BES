@@ -1,0 +1,2 @@
+group,profile,run,project,start,end,duration_seconds,cpu_avg,mem_avg_gb,rx_bytes,tx_bytes,http_rps_avg,http_error_rps_avg,waiting_entries_created_delta,waiting_entries_waiting_avg,waiting_entries_completed_delta,worker_cycles_delta,reservation_holds_created_delta,reservation_completed_delta,reservation_holds_active_avg,reservation_stock_units_avg
+G1,steady,3,tcc-bes-g1-steady-run3,2026-06-30T03:09:13.3654916Z,2026-06-30T03:12:15.6675880Z,182.30209708213806,0.0,0.0,0.0,0.0,67.86717557341036,0.0,0.0,5.3076923076923075,1445.0,151.0,0.0,1459.0,4.153846153846154,4615.307692307692

@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "stock_conservation",
+      "passed": true,
+      "details": {
+        "broken_resource_ids": [],
+        "resources_checked": 1
+      }
+    },
+    {
+      "check": "duplicate_active_participant",
+      "passed": true,
+      "details": {
+        "duplicates": [],
+        "active_entries_checked": 0
+      }
+    },
+    {
+      "check": "duplicate_queue_sequence",
+      "passed": true,
+      "details": {
+        "duplicates": [],
+        "entries_checked": 1667
+      }
+    },
+    {
+      "check": "entry_reservation_links",
+      "passed": true,
+      "details": {
+        "missing_reservations": [],
+        "mismatched_reservations": [],
+        "missing_entries": [],
+        "entries_checked": 1667,
+        "reservations_checked": 1667
+      }
+    }
+  ],
+  "counts": {
+    "resources": 1,
+    "queues": 1,
+    "entries": 1667,
+    "reservations": 1667,
+    "entry_states": {
+      "CONFIRMED": 1667
+    },
+    "reservation_states": {
+      "CONFIRMED": 1667
+    }
+  },
+  "exports": [
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\steady\\run-02\\domain\\postgres_manager_accounts.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\steady\\run-02\\domain\\postgres_resources.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\steady\\run-02\\domain\\postgres_queues.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\steady\\run-02\\domain\\postgres_entries.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\steady\\run-02\\domain\\postgres_reservations.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\steady\\run-02\\domain\\postgres_reservation_terminal_events.csv"
+  ],
+  "errors": []
+}

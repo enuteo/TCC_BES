@@ -1,0 +1,2 @@
+id,manager_id,resource_id,name,max_quantity_per_participant,hold_duration_seconds,worker_interval_ms,max_batch_size,state,next_sequence,created_at,updated_at
+fcc5a3d5-a7a4-46d4-b41e-0e8364660e25,fa8bfa50-8dd4-4b39-86b6-af4f9e1c98bf,3265f87e-190b-4423-8e4e-c4fb296b477e,queue-spike-1782792529990,3,45,1000,30,OPEN,3928,2026-06-30 04:08:50.52935+00,2026-06-30 04:11:50.180614+00

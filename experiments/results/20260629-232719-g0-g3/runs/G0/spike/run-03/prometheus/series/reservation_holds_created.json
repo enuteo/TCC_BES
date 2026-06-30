@@ -1,0 +1,13 @@
+{
+  "query": "sum(reservation_holds_created_total)",
+  "attemptedQueries": [
+    "sum(reservation_holds_created_total)"
+  ],
+  "payload": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": []
+    }
+  }
+}

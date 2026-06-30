@@ -1,0 +1,40 @@
+# Execuções
+
+| Grupo | Perfil | Run | Status | k6 exit | Domínio | s | Diretório |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| G0 | contention | 1 | success | 0 | True | 182.696 | run-01 |
+| G0 | contention | 2 | success | 0 | True | 183.786 | run-02 |
+| G0 | contention | 3 | success | 0 | True | 183.375 | run-03 |
+| G0 | spike | 1 | success | 0 | True | 182.121 | run-01 |
+| G0 | spike | 2 | success | 0 | True | 181.926 | run-02 |
+| G0 | spike | 3 | success | 0 | True | 182.639 | run-03 |
+| G0 | steady | 1 | success | 0 | True | 184.029 | run-01 |
+| G0 | steady | 2 | success | 0 | True | 182.865 | run-02 |
+| G0 | steady | 3 | success | 0 | True | 182.058 | run-03 |
+| G1 | contention | 1 | success | 0 | True | 183.352 | run-01 |
+| G1 | contention | 2 | success | 0 | True | 183.084 | run-02 |
+| G1 | contention | 3 | success | 0 | True | 182.820 | run-03 |
+| G1 | spike | 1 | success | 0 | True | 181.717 | run-01 |
+| G1 | spike | 2 | success | 0 | True | 181.747 | run-02 |
+| G1 | spike | 3 | success | 0 | True | 182.279 | run-03 |
+| G1 | steady | 1 | success | 0 | True | 182.291 | run-01 |
+| G1 | steady | 2 | success | 0 | True | 182.053 | run-02 |
+| G1 | steady | 3 | success | 0 | True | 182.302 | run-03 |
+| G2 | contention | 1 | success | 0 | True | 183.967 | run-01 |
+| G2 | contention | 2 | success | 0 | True | 184.959 | run-02 |
+| G2 | contention | 3 | success | 0 | True | 183.516 | run-03 |
+| G2 | spike | 1 | success | 0 | True | 182.372 | run-01 |
+| G2 | spike | 2 | success | 0 | True | 182.739 | run-02 |
+| G2 | spike | 3 | success | 0 | True | 182.438 | run-03 |
+| G2 | steady | 1 | success | 0 | True | 182.983 | run-01 |
+| G2 | steady | 2 | success | 0 | True | 183.619 | run-02 |
+| G2 | steady | 3 | success | 0 | True | 182.410 | run-03 |
+| G3 | contention | 1 | success | 0 | True | 183.873 | run-01 |
+| G3 | contention | 2 | success | 0 | True | 184.249 | run-02 |
+| G3 | contention | 3 | success | 0 | True | 183.083 | run-03 |
+| G3 | spike | 1 | success | 0 | True | 181.771 | run-01 |
+| G3 | spike | 2 | success | 0 | True | 182.290 | run-02 |
+| G3 | spike | 3 | success | 0 | True | 182.101 | run-03 |
+| G3 | steady | 1 | success | 0 | True | 183.667 | run-01 |
+| G3 | steady | 2 | success | 0 | True | 183.245 | run-02 |
+| G3 | steady | 3 | success | 0 | True | 182.863 | run-03 |

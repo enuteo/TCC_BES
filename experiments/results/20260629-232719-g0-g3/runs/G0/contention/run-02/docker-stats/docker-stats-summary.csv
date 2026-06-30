@@ -1,0 +1,2 @@
+sample_count,container_count,cpu_avg,mem_avg_gb,rx_bytes,tx_bytes,errors
+46,5,0.2837195652173913,0.444553597106087,30750340.0,33833140.0,[]

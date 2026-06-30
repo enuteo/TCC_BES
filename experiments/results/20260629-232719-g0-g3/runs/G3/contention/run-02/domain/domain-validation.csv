@@ -1,0 +1,5 @@
+check,passed,details
+stock_conservation,True,"{""broken_resource_ids"": [], ""resources_checked"": 1}"
+duplicate_active_participant,True,"{""duplicates"": [], ""active_entries_checked"": 0}"
+duplicate_queue_sequence,True,"{""duplicates"": [], ""entries_checked"": 3106}"
+entry_reservation_links,True,"{""missing_reservations"": [], ""mismatched_reservations"": [], ""missing_entries"": [], ""entries_checked"": 3106, ""reservations_checked"": 64}"

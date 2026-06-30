@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "stock_conservation",
+      "passed": true,
+      "details": {
+        "broken_resource_ids": [],
+        "resources_checked": 1
+      }
+    },
+    {
+      "check": "duplicate_active_participant",
+      "passed": true,
+      "details": {
+        "duplicates": [],
+        "active_entries_checked": 0
+      }
+    },
+    {
+      "check": "duplicate_queue_sequence",
+      "passed": true,
+      "details": {
+        "duplicates": [],
+        "entries_checked": 4816
+      }
+    },
+    {
+      "check": "entry_reservation_links",
+      "passed": true,
+      "details": {
+        "missing_reservations": [],
+        "mismatched_reservations": [],
+        "missing_entries": [],
+        "entries_checked": 4816,
+        "reservations_checked": 153
+      }
+    }
+  ],
+  "counts": {
+    "resources": 1,
+    "queues": 1,
+    "entries": 4816,
+    "reservations": 153,
+    "entry_states": {
+      "UNFULFILLABLE": 4663,
+      "CONFIRMED": 153
+    },
+    "reservation_states": {
+      "CONFIRMED": 153
+    }
+  },
+  "exports": [
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\spike\\run-02\\domain\\postgres_manager_accounts.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\spike\\run-02\\domain\\postgres_resources.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\spike\\run-02\\domain\\postgres_queues.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\spike\\run-02\\domain\\postgres_entries.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\spike\\run-02\\domain\\postgres_reservations.csv",
+    "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G0\\spike\\run-02\\domain\\postgres_reservation_terminal_events.csv"
+  ],
+  "errors": []
+}

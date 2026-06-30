@@ -1,0 +1,9 @@
+{
+  "sample_count": 46,
+  "container_count": 5,
+  "cpu_avg": 0.24623043478260873,
+  "mem_avg_gb": 0.44938297344000006,
+  "rx_bytes": 26152020.0,
+  "tx_bytes": 27635200.0,
+  "errors": []
+}

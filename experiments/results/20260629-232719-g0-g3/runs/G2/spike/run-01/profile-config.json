@@ -1,0 +1,17 @@
+﻿{
+    "MANAGER_PASSWORD":  "admin123",
+    "HOLD_SECONDS":  "45",
+    "POLL_ATTEMPTS":  "30",
+    "RESOURCE_TOTAL":  "300",
+    "STAGE_RAMP_UP":  "30s",
+    "STAGE_HOLD":  "2m",
+    "POLL_SLEEP_SECONDS":  "1",
+    "SPIKE_VUS":  "80",
+    "PROFILE":  "spike",
+    "STAGE_RAMP_DOWN":  "30s",
+    "MANAGER_USERNAME":  "admin",
+    "HTTP_FAILED_RATE":  "0.20",
+    "HTTP_P95_MS":  "5000",
+    "BATCH_SIZE":  "30",
+    "MAX_QUANTITY":  "3"
+}

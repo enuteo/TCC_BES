@@ -1,0 +1,2 @@
+id,manager_id,name,total_quantity,available_quantity,held_quantity,confirmed_quantity,created_at
+a634a5ae-cd96-49bc-b4a4-54fc130286ed,cec65bbb-f3fd-4209-a97b-1ec2a5926c09,resource-spike-1782790076401,300,0,0,300,2026-06-30 03:27:56.56802+00

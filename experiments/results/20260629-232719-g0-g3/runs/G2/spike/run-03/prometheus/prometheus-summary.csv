@@ -1,0 +1,2 @@
+group,profile,run,project,start,end,duration_seconds,cpu_avg,mem_avg_gb,rx_bytes,tx_bytes,http_rps_avg,http_error_rps_avg,waiting_entries_created_delta,waiting_entries_waiting_avg,waiting_entries_completed_delta,worker_cycles_delta,reservation_holds_created_delta,reservation_completed_delta,reservation_holds_active_avg,reservation_stock_units_avg
+G2,spike,3,tcc-bes-g2-spike-run3,2026-06-30T04:08:49.3674199Z,2026-06-30T04:11:51.8057501Z,182.43833088874817,0.0,0.0,0.0,0.0,172.0024366250774,0.0,0.0,50.84615384615385,3764.0,127.0,0.0,0.0,0.0,276.9230769230769

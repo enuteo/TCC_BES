@@ -1,0 +1,15 @@
+{
+  "query": "sum(container_memory_working_set_bytes{container=~\".*tcc-bes-g3-steady-run2.*\"})",
+  "attemptedQueries": [
+    "sum(container_memory_working_set_bytes{container_label_com_docker_compose_project=\"tcc-bes-g3-steady-run2\"})",
+    "sum(container_memory_working_set_bytes{name=~\".*tcc-bes-g3-steady-run2.*\"})",
+    "sum(container_memory_working_set_bytes{container=~\".*tcc-bes-g3-steady-run2.*\"})"
+  ],
+  "payload": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": []
+    }
+  }
+}

@@ -1,0 +1,2 @@
+id,manager_id,name,total_quantity,available_quantity,held_quantity,confirmed_quantity,created_at
+e9d941ac-dcf8-4842-8537-743a1074ee0b,fd43b875-5c32-4dd6-af0d-1a6cc29fe088,resource-steady-1782786695284,5000,1648,0,3352,2026-06-30 02:31:35.515372+00

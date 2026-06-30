@@ -1,0 +1,15 @@
+{
+  "query": "sum(container_network_receive_bytes_total{container=~\".*tcc-bes-g1-spike-run2.*\"})",
+  "attemptedQueries": [
+    "sum(container_network_receive_bytes_total{container_label_com_docker_compose_project=\"tcc-bes-g1-spike-run2\"})",
+    "sum(container_network_receive_bytes_total{name=~\".*tcc-bes-g1-spike-run2.*\"})",
+    "sum(container_network_receive_bytes_total{container=~\".*tcc-bes-g1-spike-run2.*\"})"
+  ],
+  "payload": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": []
+    }
+  }
+}

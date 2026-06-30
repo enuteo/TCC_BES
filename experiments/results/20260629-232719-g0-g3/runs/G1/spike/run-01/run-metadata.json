@@ -1,0 +1,16 @@
+﻿{
+    "group":  "G1",
+    "profile":  "spike",
+    "run":  1,
+    "project":  "tcc-bes-g1-spike-run1",
+    "composeFile":  "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\compose\\g1.yml",
+    "runDir":  "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-01",
+    "status":  "success",
+    "startedAt":  "2026-06-30T03:23:36.8030640Z",
+    "endedAt":  "2026-06-30T03:27:21.9883951Z",
+    "k6ExitCode":  0,
+    "error":  null,
+    "loadStartedAt":  "2026-06-30T03:24:11.2985761Z",
+    "loadEndedAt":  "2026-06-30T03:27:13.0154389Z",
+    "dockerStatsDir":  "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\spike\\run-01\\docker-stats"
+}

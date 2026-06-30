@@ -1,0 +1,2 @@
+group,profile,run,project,start,end,duration_seconds,cpu_avg,mem_avg_gb,rx_bytes,tx_bytes,http_rps_avg,http_error_rps_avg,waiting_entries_created_delta,waiting_entries_waiting_avg,waiting_entries_completed_delta,worker_cycles_delta,reservation_holds_created_delta,reservation_completed_delta,reservation_holds_active_avg,reservation_stock_units_avg
+G1,contention,3,tcc-bes-g1-contention-run3,2026-06-30T03:20:26.7808670Z,2026-06-30T03:23:29.6010337Z,182.82016587257385,0.0,0.0,0.0,0.0,104.48839040718865,0.0,0.0,32.30769230769231,2945.0,148.0,0.0,0.0,0.0,110.76923076923077

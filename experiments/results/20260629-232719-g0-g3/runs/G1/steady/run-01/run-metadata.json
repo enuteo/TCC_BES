@@ -1,0 +1,16 @@
+﻿{
+    "group":  "G1",
+    "profile":  "steady",
+    "run":  1,
+    "project":  "tcc-bes-g1-steady-run1",
+    "composeFile":  "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\compose\\g1.yml",
+    "runDir":  "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\steady\\run-01",
+    "status":  "success",
+    "startedAt":  "2026-06-30T03:00:45.3290341Z",
+    "endedAt":  "2026-06-30T03:04:40.2289016Z",
+    "k6ExitCode":  0,
+    "error":  null,
+    "loadStartedAt":  "2026-06-30T03:01:28.7697123Z",
+    "loadEndedAt":  "2026-06-30T03:04:31.0603998Z",
+    "dockerStatsDir":  "C:\\Users\\Pardini\\Organico\\dev\\TCC_BES\\experiments\\results\\20260629-232719-g0-g3\\runs\\G1\\steady\\run-01\\docker-stats"
+}

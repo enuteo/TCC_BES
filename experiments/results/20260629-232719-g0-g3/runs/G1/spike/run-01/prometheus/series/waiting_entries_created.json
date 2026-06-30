@@ -1,0 +1,13 @@
+{
+  "query": "sum(waitingroom_entries_created_total)",
+  "attemptedQueries": [
+    "sum(waitingroom_entries_created_total)"
+  ],
+  "payload": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": []
+    }
+  }
+}
