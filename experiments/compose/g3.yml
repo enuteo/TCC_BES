@@ -1,0 +1,271 @@
+services:
+  residual-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tcc_bes_residual
+      POSTGRES_USER: tcc_bes
+      POSTGRES_PASSWORD: tcc_bes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tcc_bes -d tcc_bes_residual"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  identity-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tcc_bes_identity
+      POSTGRES_USER: tcc_bes
+      POSTGRES_PASSWORD: tcc_bes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tcc_bes -d tcc_bes_identity"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  waiting-room-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tcc_bes_waiting_room
+      POSTGRES_USER: tcc_bes
+      POSTGRES_PASSWORD: tcc_bes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tcc_bes -d tcc_bes_waiting_room"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  queue-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tcc_bes_queue
+      POSTGRES_USER: tcc_bes
+      POSTGRES_PASSWORD: tcc_bes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tcc_bes -d tcc_bes_queue"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  reservation-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tcc_bes_reservation
+      POSTGRES_USER: tcc_bes
+      POSTGRES_PASSWORD: tcc_bes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tcc_bes -d tcc_bes_reservation"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: ../..
+      dockerfile: experiments/docker/Dockerfile
+    environment:
+      SPRING_APPLICATION_NAME: api-residual
+      APP_EXPERIMENT_GROUP: G3
+      APP_EXPERIMENT_ROLE: residual
+      DATABASE_URL: jdbc:postgresql://residual-postgres:5432/tcc_bes_residual
+      DATABASE_USERNAME: tcc_bes
+      DATABASE_PASSWORD: tcc_bes
+      SPRING_FLYWAY_LOCATIONS: classpath:db/g3-residual
+      APP_JWT_SECRET: g3-jwt-secret-change-me-with-at-least-32-bytes
+      APP_ENCRYPTION_SECRET: g3-encryption-secret-change-me-32-bytes
+      APP_INTERNAL_TOKEN: g3-internal-token-change-me-with-at-least-32-bytes
+      APP_INTERNAL_IDENTITY_BASE_URL: http://identity-service:8080
+      APP_INTERNAL_WAITING_ROOM_BASE_URL: http://waiting-room-service:8080
+      APP_INTERNAL_RESERVATION_BASE_URL: http://reservation-service:8080
+      APP_INTERNAL_QUEUE_MANAGEMENT_BASE_URL: http://queue-management-service:8080
+      APP_PUBLIC_API_ENABLED: "true"
+      APP_INTERNAL_API_ENABLED: "false"
+      APP_MODULE_IDENTITY_ENABLED: "false"
+      APP_MODULE_WAITING_ROOM_ENABLED: "false"
+      APP_MODULE_QUEUE_MANAGEMENT_ENABLED: "false"
+      APP_MODULE_RESERVATION_ENABLED: "false"
+      APP_IDENTITY_ADAPTER_MODE: http
+      APP_WAITING_ROOM_ADAPTER_MODE: http
+      APP_RESERVATION_ADAPTER_MODE: http
+      APP_QUEUE_MANAGEMENT_ADAPTER_MODE: http
+      APP_BOOTSTRAP_MANAGER_ENABLED: "false"
+      APP_WORKER_ENABLED: "false"
+      APP_EXPIRATION_ENABLED: "false"
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      residual-postgres:
+        condition: service_healthy
+      identity-service:
+        condition: service_started
+      waiting-room-service:
+        condition: service_started
+      queue-management-service:
+        condition: service_started
+      reservation-service:
+        condition: service_started
+
+  identity-service:
+    build:
+      context: ../..
+      dockerfile: experiments/docker/Dockerfile
+    environment:
+      SPRING_APPLICATION_NAME: identity-service
+      APP_EXPERIMENT_GROUP: G3
+      APP_EXPERIMENT_ROLE: identity
+      DATABASE_URL: jdbc:postgresql://identity-postgres:5432/tcc_bes_identity
+      DATABASE_USERNAME: tcc_bes
+      DATABASE_PASSWORD: tcc_bes
+      SPRING_FLYWAY_LOCATIONS: classpath:db/identity
+      APP_JWT_SECRET: g3-jwt-secret-change-me-with-at-least-32-bytes
+      APP_ENCRYPTION_SECRET: g3-encryption-secret-change-me-32-bytes
+      APP_INTERNAL_TOKEN: g3-internal-token-change-me-with-at-least-32-bytes
+      APP_BOOTSTRAP_MANAGER_USERNAME: admin
+      APP_BOOTSTRAP_MANAGER_PASSWORD: admin123
+      APP_PUBLIC_API_ENABLED: "false"
+      APP_INTERNAL_API_ENABLED: "true"
+      APP_MODULE_IDENTITY_ENABLED: "true"
+      APP_MODULE_WAITING_ROOM_ENABLED: "false"
+      APP_MODULE_QUEUE_MANAGEMENT_ENABLED: "false"
+      APP_MODULE_RESERVATION_ENABLED: "false"
+      APP_IDENTITY_ADAPTER_MODE: local
+      APP_WORKER_ENABLED: "false"
+      APP_EXPIRATION_ENABLED: "false"
+    depends_on:
+      identity-postgres:
+        condition: service_healthy
+
+  waiting-room-service:
+    build:
+      context: ../..
+      dockerfile: experiments/docker/Dockerfile
+    environment:
+      SPRING_APPLICATION_NAME: waiting-room-service
+      APP_EXPERIMENT_GROUP: G3
+      APP_EXPERIMENT_ROLE: waiting-room
+      DATABASE_URL: jdbc:postgresql://waiting-room-postgres:5432/tcc_bes_waiting_room
+      DATABASE_USERNAME: tcc_bes
+      DATABASE_PASSWORD: tcc_bes
+      SPRING_FLYWAY_LOCATIONS: classpath:db/waiting-room
+      APP_JWT_SECRET: g3-jwt-secret-change-me-with-at-least-32-bytes
+      APP_ENCRYPTION_SECRET: g3-encryption-secret-change-me-32-bytes
+      APP_INTERNAL_TOKEN: g3-internal-token-change-me-with-at-least-32-bytes
+      APP_INTERNAL_IDENTITY_BASE_URL: http://identity-service:8080
+      APP_INTERNAL_RESERVATION_BASE_URL: http://reservation-service:8080
+      APP_INTERNAL_QUEUE_MANAGEMENT_BASE_URL: http://queue-management-service:8080
+      APP_BOOTSTRAP_MANAGER_ENABLED: "false"
+      APP_PUBLIC_API_ENABLED: "false"
+      APP_INTERNAL_API_ENABLED: "true"
+      APP_MODULE_IDENTITY_ENABLED: "false"
+      APP_MODULE_WAITING_ROOM_ENABLED: "true"
+      APP_MODULE_QUEUE_MANAGEMENT_ENABLED: "false"
+      APP_MODULE_RESERVATION_ENABLED: "false"
+      APP_IDENTITY_ADAPTER_MODE: http
+      APP_WAITING_ROOM_ADAPTER_MODE: local
+      APP_RESERVATION_ADAPTER_MODE: http
+      APP_QUEUE_MANAGEMENT_ADAPTER_MODE: http
+      APP_WORKER_ENABLED: "true"
+      APP_EXPIRATION_ENABLED: "true"
+    depends_on:
+      waiting-room-postgres:
+        condition: service_healthy
+      identity-service:
+        condition: service_started
+      queue-management-service:
+        condition: service_started
+      reservation-service:
+        condition: service_started
+
+  queue-management-service:
+    build:
+      context: ../..
+      dockerfile: experiments/docker/Dockerfile
+    environment:
+      SPRING_APPLICATION_NAME: queue-management-service
+      APP_EXPERIMENT_GROUP: G3
+      APP_EXPERIMENT_ROLE: queue-management
+      DATABASE_URL: jdbc:postgresql://queue-postgres:5432/tcc_bes_queue
+      DATABASE_USERNAME: tcc_bes
+      DATABASE_PASSWORD: tcc_bes
+      SPRING_FLYWAY_LOCATIONS: classpath:db/queue-management
+      APP_JWT_SECRET: g3-jwt-secret-change-me-with-at-least-32-bytes
+      APP_ENCRYPTION_SECRET: g3-encryption-secret-change-me-32-bytes
+      APP_INTERNAL_TOKEN: g3-internal-token-change-me-with-at-least-32-bytes
+      APP_INTERNAL_RESERVATION_BASE_URL: http://reservation-service:8080
+      APP_BOOTSTRAP_MANAGER_ENABLED: "false"
+      APP_PUBLIC_API_ENABLED: "false"
+      APP_INTERNAL_API_ENABLED: "true"
+      APP_MODULE_IDENTITY_ENABLED: "false"
+      APP_MODULE_WAITING_ROOM_ENABLED: "false"
+      APP_MODULE_QUEUE_MANAGEMENT_ENABLED: "true"
+      APP_MODULE_RESERVATION_ENABLED: "false"
+      APP_RESERVATION_ADAPTER_MODE: http
+      APP_QUEUE_MANAGEMENT_ADAPTER_MODE: local
+      APP_WORKER_ENABLED: "false"
+      APP_EXPIRATION_ENABLED: "false"
+    depends_on:
+      queue-postgres:
+        condition: service_healthy
+      reservation-service:
+        condition: service_started
+
+  reservation-service:
+    build:
+      context: ../..
+      dockerfile: experiments/docker/Dockerfile
+    environment:
+      SPRING_APPLICATION_NAME: reservation-service
+      APP_EXPERIMENT_GROUP: G3
+      APP_EXPERIMENT_ROLE: reservation
+      DATABASE_URL: jdbc:postgresql://reservation-postgres:5432/tcc_bes_reservation
+      DATABASE_USERNAME: tcc_bes
+      DATABASE_PASSWORD: tcc_bes
+      SPRING_FLYWAY_LOCATIONS: classpath:db/reservation
+      APP_JWT_SECRET: g3-jwt-secret-change-me-with-at-least-32-bytes
+      APP_ENCRYPTION_SECRET: g3-encryption-secret-change-me-32-bytes
+      APP_INTERNAL_TOKEN: g3-internal-token-change-me-with-at-least-32-bytes
+      APP_BOOTSTRAP_MANAGER_ENABLED: "false"
+      APP_PUBLIC_API_ENABLED: "false"
+      APP_INTERNAL_API_ENABLED: "true"
+      APP_MODULE_IDENTITY_ENABLED: "false"
+      APP_MODULE_WAITING_ROOM_ENABLED: "false"
+      APP_MODULE_QUEUE_MANAGEMENT_ENABLED: "false"
+      APP_MODULE_RESERVATION_ENABLED: "true"
+      APP_RESERVATION_ADAPTER_MODE: local
+      APP_WORKER_ENABLED: "false"
+      APP_EXPIRATION_ENABLED: "false"
+    depends_on:
+      reservation-postgres:
+        condition: service_healthy
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    volumes:
+      - ../prometheus/g3.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    depends_on:
+      - api
+      - identity-service
+      - waiting-room-service
+      - queue-management-service
+      - reservation-service
+      - cadvisor
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      - prometheus
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    privileged: true
+    ports:
+      - "${CADVISOR_PORT:-8081}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro

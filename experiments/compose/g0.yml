@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tcc_bes_db
+      POSTGRES_USER: tcc_bes
+      POSTGRES_PASSWORD: tcc_bes
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tcc_bes -d tcc_bes_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: ../..
+      dockerfile: experiments/docker/Dockerfile
+    environment:
+      APP_EXPERIMENT_GROUP: G0
+      DATABASE_URL: jdbc:postgresql://postgres:5432/tcc_bes_db
+      DATABASE_USERNAME: tcc_bes
+      DATABASE_PASSWORD: tcc_bes
+      APP_JWT_SECRET: g0-jwt-secret-change-me-with-at-least-32-bytes
+      APP_ENCRYPTION_SECRET: g0-encryption-secret-change-me-32-bytes
+      APP_BOOTSTRAP_MANAGER_USERNAME: admin
+      APP_BOOTSTRAP_MANAGER_PASSWORD: admin123
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    volumes:
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    depends_on:
+      - api
+      - cadvisor
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      - prometheus
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    privileged: true
+    ports:
+      - "${CADVISOR_PORT:-8081}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
